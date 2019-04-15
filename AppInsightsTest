@@ -1,0 +1,55 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import com.microsoft.applicationinsights.TelemetryClient;
+import com.microsoft.applicationinsights.TelemetryConfiguration;
+import com.microsoft.applicationinsights.telemetry.Duration;
+
+public class AppInsightsTest {
+
+	public static String custommetric = "custommetric";
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		long start = System.currentTimeMillis();
+		
+		TelemetryClient client = new TelemetryClient();
+		
+		String telemetryKey = System.getenv("APPLICATION_INSIGHT_IKEY");
+		if (telemetryKey != null) {
+			TelemetryConfiguration.getActive().setInstrumentationKey(telemetryKey);
+		}
+	
+		System.out.println(telemetryKey);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("key1", "value1");
+		map.put("key2", "value2");
+		map.put("key3", "value3");
+
+		
+		// TelemetryConfiguration.getActive().setInstrumentationKey("6f5fd796-2334-4380-a035-99796ac4f8d7");
+		client.getContext().getUser().setId("JavaTestUser");
+		client.getContext().getDevice().setId("JavaTestDevice");
+
+		client.trackEvent("JAVATesting");
+		
+		System.out.println(
+				"isDisabled: " + client.isDisabled() + " | client :" + client.getContext().getInstrumentationKey());
+		
+		client.trackDependency("SQL", "INSERT", new Duration(System.currentTimeMillis() - start), true);
+		client.trackMetric(custommetric, 100, 50, 10, 50, map);
+		
+		try {
+			throw new Exception("exception: test");
+		} catch (Exception e) {
+			client.trackException(e);
+			System.out.println("Exception:" + e.getLocalizedMessage());
+		}
+		
+		System.out.println("Completed");
+		client.flush();
+		Thread.sleep(5000);
+	}
+}
