@@ -29,7 +29,7 @@ public class AppInsightsTest {
 		map.put("key3", "value3");
 
 		
-		// TelemetryConfiguration.getActive().setInstrumentationKey("6f5fd796-2334-4380-a035-99796ac4f8d7");
+		// TelemetryConfiguration.getActive().setInstrumentationKey("<Your intrumentation Key>");
 		client.getContext().getUser().setId("JavaTestUser");
 		client.getContext().getDevice().setId("JavaTestDevice");
 
