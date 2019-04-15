@@ -1,5 +1,5 @@
 # JavaConsoleApp
 
-AppInsightsTest is example to configure Java Application with the App Insight. 
+AppInsightsTest is example to configure Java Console Application with the App Insight. 
 
-For Java Standalone Application you would need to senf custom telemetry
+For Java Console Application you would need to send custom telemetry
